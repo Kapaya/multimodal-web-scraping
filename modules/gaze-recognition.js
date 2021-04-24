@@ -6,10 +6,14 @@ const GazeRecognition = (function(){
                 if (data == null) {
                     return;
                 }
-                const xprediction = data.x; //these x coordinates are relative to the viewport
-                const yprediction = data.y; //these y coordinates are relative to the viewport
-                console.log(elapsedTime); //elapsed time is based on time since begin was called
-                console.log(`WebGazer <${xprediction}, ${yprediction}>`);
+                const xprediction = data.x;
+                const yprediction = data.y;
+                const element = document.elementFromPoint(xprediction, yprediction);
+                if (WrapperInduction.isValidNode(element)) {
+                    console.log(element);
+                    const rowElement = WrapperInduction.findRowElement(element);
+                    console.log(rowElement);
+                }
             }).begin();
     }
     function pause() {

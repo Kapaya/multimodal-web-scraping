@@ -1,21 +1,23 @@
   {
     "name": "Multimodal Web Scraper",
     "version": "1.0.0",
-    "description": "Multimodal web scraping via gaze-detection and speech recognition",
+    "description": "Prototype of multimodal web scraping via gaze-detection and speech recognition",
     "manifest_version": 2,
     "content_scripts": [
       {
         "js": [
           "./modules/webgazer/tensorflow.js",
           "./modules/webgazer/webgazer.js",
+          "./modules/wrapper-induction.js",
           "./modules/gaze-recognition.js",
+          "./modules/controls.js",
           "./index.js"
         ],
+        "css": [
+          "./index.css"
+        ],
         "matches": [
-          "http://localhost:8080/",
-          "https://helena-lang.org/sample-data",
-          "https://scholar.google.com/citations?user=*",
-          "https://www.csail.mit.edu/people?*"
+          "https://helena-lang.org/sample-data"
         ]
       }
     ],
@@ -25,6 +27,6 @@
       ]
     },
     "permissions": [
-      "*://localhost/*"
+      "contextMenus"
     ]
   }

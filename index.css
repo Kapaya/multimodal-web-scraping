@@ -1,0 +1,20 @@
+#mws--root {
+    --theme-color: #8e44ad;
+    --text-color: white;
+}
+
+#mws--root {
+    display: flex;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 1000;
+    background-color: var(--theme-color);
+    color: var(--text-color);
+    border-radius: 5px;
+}
+
+#mws--root > * {
+    padding: 2.5px;
+    margin: 2.5px;
+}

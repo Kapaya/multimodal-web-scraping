@@ -2440,8 +2440,18 @@ src_webgazer.end = function() {
   //webgazer.stopVideo(); // uncomment if you want to stop the video from streaming
 
   //remove video element and canvas
-  document.body.removeChild(videoElement);
-  document.body.removeChild(videoElementCanvas);
+  if (videoElement) {
+    videoElement.remove();
+  }
+  if (videoElementCanvas) {
+    videoElementCanvas.remove()
+  }
+  if (gazeDot) {
+    gazeDot.remove();
+  }
+  if (videoStream) {
+    videoStream.getTracks()[0].stop();
+  }
 
   return src_webgazer;
 };
