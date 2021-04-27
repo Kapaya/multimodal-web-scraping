@@ -1,5 +1,4 @@
 const Controls = (function(){
-    const _ELEMENT_ID = 'mws--root';
     function render() {
         const body = document.querySelector('body');
         const controlsElement = createControlsElement();
@@ -10,6 +9,11 @@ const Controls = (function(){
                     GazeRecognition.stop();
                     controlsElement.remove();
                     break;
+                case 'lock':
+                    GazeRecognition.pause();
+                    break;
+                case 'unlock':
+                    GazeRecognition.resume();
                 default:
                     break;
             }
@@ -18,11 +22,12 @@ const Controls = (function(){
     }
     function createControlsElement() {
         const controlsElementInnerHtml = `
-            <span class='title'> MWS </span>
-            <button id='end'> End </button>
+            <button id='unlock' class='btn btn-outline-light'> Unlock </button>
+            <button id='lock' class='btn btn-outline-light'> Lock </button>
+            <button id='end' class='btn btn-outline-light'> End </button>
         `;
         const controlsElement = document.createElement('div');
-        controlsElement.id = _ELEMENT_ID;
+        controlsElement.id = Constants.CONTROLS_ELEMENT_ID;
         controlsElement.innerHTML = controlsElementInnerHtml;
         return controlsElement;
     }

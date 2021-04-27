@@ -6,13 +6,16 @@ const GazeRecognition = (function(){
                 if (data == null) {
                     return;
                 }
-                const xprediction = data.x;
-                const yprediction = data.y;
-                const element = document.elementFromPoint(xprediction, yprediction);
-                if (WrapperInduction.isValidNode(element)) {
-                    console.log(element);
-                    const rowElement = WrapperInduction.findRowElement(element);
-                    console.log(rowElement);
+                VisualFeedback.unhighlightRowElements();
+                const element = GazeUtils.elementFromPoint(data.x, data.y);
+                if (element) {
+                    const result = WrapperInduction.findRowElement(element);
+                    if (result) {
+                        const { rowElement, rowSelector } = result;
+                        if (rowSelector ) {
+                            VisualFeedback.highlightRowElements({ rowSelector });
+                        }
+                    }
                 }
             }).begin();
     }
@@ -23,6 +26,7 @@ const GazeRecognition = (function(){
         webgazer.resume();
     }
     function stop() {
+        VisualFeedback.unhighlightRowElements();
         webgazer.end();
     }
     return {

@@ -1,20 +1,31 @@
-#mws--root {
-    --theme-color: #8e44ad;
-    --text-color: white;
+:root {
+    --mws-theme-color: #9b59b6;
+    --mws-theme-color-light: #be90d4;
+    --mws-text-color: white;
 }
 
-#mws--root {
+#mws-root {
     display: flex;
     position: absolute;
     right: 10px;
     bottom: 10px;
     z-index: 1000;
-    background-color: var(--theme-color);
-    color: var(--text-color);
+    background-color: var(--mws-theme-color);
+    color: var(--mws-text-color);
     border-radius: 5px;
+    justify-content: center;
+    align-items: center;
 }
 
-#mws--root > * {
-    padding: 2.5px;
-    margin: 2.5px;
+#mws-root > * {
+    padding: 3px;
+    margin: 3px;
+}
+
+.mws-row-highlight {
+    border: 1px solid var(--mws-theme-color);
+}
+
+.mws-column-highlight {
+    background-color: var(--mws-theme-color-light);
 }

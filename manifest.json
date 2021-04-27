@@ -6,18 +6,25 @@
     "content_scripts": [
       {
         "js": [
+          "./modules/bootstrap/js/bootstrap.min.js",
           "./modules/webgazer/tensorflow.js",
           "./modules/webgazer/webgazer.js",
+          "./modules/constants.js",
           "./modules/wrapper-induction.js",
+          "./modules/visual-feedback.js",
+          "./modules/gaze-utils.js",
           "./modules/gaze-recognition.js",
           "./modules/controls.js",
           "./index.js"
         ],
         "css": [
+          "./modules/bootstrap/css/bootstrap.min.css",
           "./index.css"
         ],
         "matches": [
-          "https://helena-lang.org/sample-data"
+          "https://helena-lang.org/sample-data",
+          "https://www.csail.mit.edu/people?person*",
+          "https://scholar.google.com/citations?user=*"
         ]
       }
     ],

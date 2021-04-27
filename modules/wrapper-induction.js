@@ -2,69 +2,63 @@ const WrapperInduction = (function(){
     let _rowElement;
     let _rowSelector;
     function findRowElement(node) {
-        if (!inRowSet(node)) {
-            const candidates = [];
-            let candidate = node.parentNode;
-            let selector = generateIndexSelectorFrom(node, candidate);
-            while (candidate && candidate.tagName !== 'BODY') {
-                const candidateEntry = {
-                    candidate,
-                    score: 0
-                };
-                let nextSibling = candidate.nextElementSibling;
-                let previousSibling = candidate.previousElementSibling;
-                while (nextSibling) {
-                    if (nextSibling.querySelector(selector)) {
-                        candidateEntry.score += 1;
-                    }
-                    nextSibling = nextSibling.nextElementSibling;
+        const candidates = [];
+        let candidate = node.parentNode;
+        let selector = _generateIndexSelectorFrom(node, candidate);
+        while (candidate && document.body.contains(candidate)) {
+            const candidateEntry = {
+                candidate,
+                score: 0
+            };
+            let nextSibling = candidate.nextElementSibling;
+            let previousSibling = candidate.previousElementSibling;
+            while (nextSibling) {
+                if (nextSibling.querySelector(selector)) {
+                    candidateEntry.score += 1;
                 }
-                while (previousSibling) {
-                    if (previousSibling.querySelector(selector)) {
-                        candidateEntry.score += 1;
-                    }
-                    previousSibling = previousSibling.previousElementSibling;
-                }
-                candidates.push(candidateEntry);
-                candidate = candidate.parentNode;
-                selector = generateIndexSelectorFrom(node, candidate);
+                nextSibling = nextSibling.nextElementSibling;
             }
-            if (candidates.length) {
+            while (previousSibling) {
+                if (previousSibling.querySelector(selector)) {
+                    candidateEntry.score += 1;
+                }
+                previousSibling = previousSibling.previousElementSibling;
+            }
+            candidates.push(candidateEntry);
+            candidate = candidate.parentNode;
+            selector = _generateIndexSelectorFrom(node, candidate);
+        }
+        if (candidates.length) {
             candidates.sort((a, b) => b.score - a.score);
             const  rowElement = candidates[0].candidate;
-            const rowSelector = generateClassSelectorFrom(rowElement, document.querySelector('body'), true);
+            const rowSelector = _generateClassSelectorFrom(rowElement, document.querySelector('body'), true);
             _rowElement = rowElement;
             _rowSelector = rowSelector;
             return {
                 rowElement,
                 rowSelector
             };
-            }
-            return null
         }
-        return _rowElement;
+        return null; 
     }
-    function isValidNode(node) {
-        return node && node.tagName && !!document.body.contains(node);
-    }
-    function generateIndexSelectorFrom(node, from) {
+    function _generateIndexSelectorFrom(node, from) {
         if (node.isSameNode(from)) {
             return null;
         }
         const selectors = [];
         let _node = node;
         while (!_node.isSameNode(from)) {
-            selectors.unshift(generateIndexSelector(_node));
+            selectors.unshift(_generateIndexSelector(_node));
             _node = _node.parentNode;
         }
         return selectors.join('>');
     }
-    function generateIndexSelector(node) {
+    function _generateIndexSelector(node) {
         const tag = node.tagName.toLowerCase();
         const index = Array.prototype.indexOf.call(node.parentNode.children, node) + 1;
         return `${tag}:nth-child(${index})`;
     }
-    function generateClassSelectorFrom(node, from, isRow) {
+    function _generateClassSelectorFrom(node, from, isRow) {
         if (node.isSameNode(from)) {
             return null;
         }
@@ -72,9 +66,9 @@ const WrapperInduction = (function(){
         let _node = node;
         if (isRow) {
             while (!_node.isSameNode(from)) {
-                const selector = generateClassSelector(_node, isRow, from)[0] || _node.tagName.toLowerCase();
+                const selector = _generateClassSelector(_node, isRow, from)[0] || _node.tagName.toLowerCase();
                 selectors.unshift(selector);
-                if (areAllSiblings(_node,  selectors.join(' '))) {
+                if (_areAllSiblings(_node,  selectors.join(' '))) {
                     return selectors.join(' ');
                 }
                 _node = _node.parentNode;
@@ -83,11 +77,11 @@ const WrapperInduction = (function(){
         }
         return generateClassSelector(_node, isRow, from)[0];
     }
-    function generateClassSelector(node, isRow, rowElement) {
+    function _generateClassSelector(node, isRow, rowElement) {
         if (node.classList && node.classList.length) {
             let selectors = [];
             const nodeTagName = node.tagName.toLowerCase();
-            const allClassCombinations = getAllClassCombinations(Array.from(node.classList));
+            const allClassCombinations = _getAllClassCombinations(Array.from(node.classList));
             if (isRow) {
                 const siblings = Array
                     .from(node.parentNode.children)
@@ -134,7 +128,7 @@ const WrapperInduction = (function(){
         }
         return [];
     }
-    function getAllClassCombinations(chars) {
+    function _getAllClassCombinations(chars) {
         const result = [];
         const f = (prefix, chars) => {
             for (let i = 0; i < chars.length; i++) {
@@ -145,7 +139,7 @@ const WrapperInduction = (function(){
         f('', chars);
         return result;
     }
-    function inRowSet(node) {
+    function _inRowSet(node) {
         if (_rowSelector) {
             const rowElements = Array.from(document.body.querySelectorAll(_rowSelector));
             for (let i = 0; i < rowElements.length; i++) {       
@@ -156,13 +150,12 @@ const WrapperInduction = (function(){
         }
         return false;
     }
-    function areAllSiblings(node, selector) {
+    function _areAllSiblings(node, selector) {
         return Array
             .from(document.body.querySelectorAll(selector))
             .every(element => element.parentNode.isSameNode(node.parentNode));
     }
     return {
-        findRowElement,
-        isValidNode
+        findRowElement
     }
 })()
