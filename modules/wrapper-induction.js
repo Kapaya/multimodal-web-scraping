@@ -1,4 +1,4 @@
-const WrapperInduction = (function(){
+const WrapperInduction = (() => {
     let _rowElement;
     let _rowSelector;
     function findRowElement(node) {
@@ -41,6 +41,12 @@ const WrapperInduction = (function(){
         }
         return null; 
     }
+    function getRowData() {
+        return {
+            rowElement: _rowElement,
+            rowSelector: _rowSelector
+        }
+    }
     function _generateIndexSelectorFrom(node, from) {
         if (node.isSameNode(from)) {
             return null;
@@ -68,7 +74,7 @@ const WrapperInduction = (function(){
             while (!_node.isSameNode(from)) {
                 const selector = _generateClassSelector(_node, isRow, from)[0] || _node.tagName.toLowerCase();
                 selectors.unshift(selector);
-                if (_areAllSiblings(_node,  selectors.join(' '))) {
+                if (DOMHelpers.areAllSiblings(_node,  selectors.join(' '))) {
                     return selectors.join(' ');
                 }
                 _node = _node.parentNode;
@@ -81,7 +87,7 @@ const WrapperInduction = (function(){
         if (node.classList && node.classList.length) {
             let selectors = [];
             const nodeTagName = node.tagName.toLowerCase();
-            const allClassCombinations = _getAllClassCombinations(Array.from(node.classList));
+            const allClassCombinations = DOMHelpers.getAllClassCombinations(Array.from(node.classList));
             if (isRow) {
                 const siblings = Array
                     .from(node.parentNode.children)
@@ -128,34 +134,8 @@ const WrapperInduction = (function(){
         }
         return [];
     }
-    function _getAllClassCombinations(chars) {
-        const result = [];
-        const f = (prefix, chars) => {
-            for (let i = 0; i < chars.length; i++) {
-                result.push(`${prefix}.${chars[i]}`);
-                f(`${prefix}.${chars[i]}`, chars.slice(i + 1));
-            }
-        };
-        f('', chars);
-        return result;
-    }
-    function _inRowSet(node) {
-        if (_rowSelector) {
-            const rowElements = Array.from(document.body.querySelectorAll(_rowSelector));
-            for (let i = 0; i < rowElements.length; i++) {       
-                if (rowElements[i].contains(node)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    function _areAllSiblings(node, selector) {
-        return Array
-            .from(document.body.querySelectorAll(selector))
-            .every(element => element.parentNode.isSameNode(node.parentNode));
-    }
     return {
-        findRowElement
+        findRowElement,
+        getRowData
     }
 })()

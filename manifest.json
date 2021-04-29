@@ -10,7 +10,10 @@
           "./modules/webgazer/tensorflow.js",
           "./modules/webgazer/webgazer.js",
           "./modules/constants.js",
+          "./modules/voice-recognition.js",
+          "./modules/dom-helpers.js",
           "./modules/wrapper-induction.js",
+          "./modules/scraper.js",
           "./modules/visual-feedback.js",
           "./modules/gaze-utils.js",
           "./modules/gaze-recognition.js",
@@ -23,7 +26,7 @@
         ],
         "matches": [
           "https://helena-lang.org/sample-data",
-          "https://www.csail.mit.edu/people?person*",
+          "https://www.csail.mit.edu/people*",
           "https://scholar.google.com/citations?user=*"
         ]
       }
@@ -34,6 +37,8 @@
       ]
     },
     "permissions": [
-      "contextMenus"
+      "contextMenus",
+      "videoCapture",
+      "audioCapture"
     ]
   }

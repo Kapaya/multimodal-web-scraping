@@ -1,4 +1,4 @@
-const GazeRecognition = (function(){
+const GazeRecognition = (() => {
     function start() {
         webgazer
             .showVideo(false)

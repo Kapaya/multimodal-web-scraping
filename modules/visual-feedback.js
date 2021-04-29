@@ -1,4 +1,4 @@
-const VisualFeedback = (function(){
+const VisualFeedback = (() => {
     let _rowSelector;
 
     function highlightRowElements({ rowSelector }) {

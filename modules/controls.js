@@ -1,29 +1,37 @@
-const Controls = (function(){
+const Controls = (() => {
+    let controlsElement;
     function render() {
         const body = document.querySelector('body');
-        const controlsElement = createControlsElement();
+        controlsElement = _createControlsElement();
         controlsElement.addEventListener('click', (event) => {
             const { target } = event;
-            switch (target.id) {
-                case 'end':
-                    GazeRecognition.stop();
-                    controlsElement.remove();
-                    break;
-                case 'lock':
-                    GazeRecognition.pause();
-                    break;
-                case 'unlock':
-                    GazeRecognition.resume();
-                default:
-                    break;
+            const method = target.id;
+            if (method) {
+                this[method]()
             }
         });
         body.append(controlsElement);
     }
-    function createControlsElement() {
+    function stop() {
+        GazeRecognition.pause();
+    }
+    function start() {
+        GazeRecognition.resume();
+    }
+    function end() {
+        GazeRecognition.stop();
+        if (controlsElement) {
+            controlsElement.remove();
+        }
+    }
+    function scrape() {
+        Scraper.scrape();
+    }
+    function _createControlsElement() {
         const controlsElementInnerHtml = `
-            <button id='unlock' class='btn btn-outline-light'> Unlock </button>
-            <button id='lock' class='btn btn-outline-light'> Lock </button>
+            <button id='scrape' class='btn btn-outline-light'> Scrape </button>
+            <button id='start' class='btn btn-outline-light'> Start </button>
+            <button id='stop' class='btn btn-outline-light'> Stop </button>
             <button id='end' class='btn btn-outline-light'> End </button>
         `;
         const controlsElement = document.createElement('div');
@@ -32,6 +40,10 @@ const Controls = (function(){
         return controlsElement;
     }
     return {
-        render
+        render,
+        start,
+        stop,
+        end,
+        scrape
     }
 })();
