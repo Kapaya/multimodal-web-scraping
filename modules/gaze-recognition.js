@@ -1,5 +1,6 @@
 const GazeRecognition = (() => {
     function start() {
+        console.log("STARTED GAZE RECOGNITION");
         webgazer
             .showVideo(false)
             .setGazeListener((data, elapsedTime) => {

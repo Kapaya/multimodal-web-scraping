@@ -20,6 +20,7 @@ const Controls = (() => {
     }
     function end() {
         GazeRecognition.stop();
+        VoiceRecognition.stop();
         if (controlsElement) {
             controlsElement.remove();
         }
