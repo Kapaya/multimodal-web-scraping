@@ -9,7 +9,7 @@
     position: absolute;
     right: 10px;
     bottom: 10px;
-    z-index: 1000;
+    z-index: 1000000;
     background-color: var(--mws-theme-color);
     color: var(--mws-text-color);
     border-radius: 5px;
@@ -28,4 +28,8 @@
 
 .mws-column-highlight {
     background-color: var(--mws-theme-color-light);
+}
+
+.mws-column-highlight::before {
+    content: attr(data-mws-column-highlight);
 }

@@ -46,12 +46,20 @@ const VoiceRecognition = (() => {
         } else if (_userSaid(transcript, ['stop', 'lock'])) {
             Controls.stop();
             return true;
-        } else if (_userSaid(transcript, ['scrape'])) {
+        } else if (_userSaid(transcript, ['download'])) {
             Controls.scrape();
             return true;
-        } else if (_userSaid(transcript, ['end'])) {
+        } else if (_userSaid(transcript, ['end', 'close'])) {
             Controls.end();
             return true;
+        } else if (_userSaid(transcript, ['keep'])) {
+            const columns = Array.from( new Set(transcript.split(" ").slice(1).map(v => v.toUpperCase())));
+            VisualFeedback.filter({ operation: "keep", columns });
+        } else if (_userSaid(transcript, ['remove'])) {
+            const columns = Array.from( new Set(transcript.split(" ").slice(1).map(v => v.toUpperCase())));
+            VisualFeedback.filter({ operation: "remove", columns });
+        } else if (_userSaid(transcript, ['reset columns'])) {
+            VisualFeedback.resetColumns();
         }
         return false;
     }

@@ -9,8 +9,11 @@ const Scraper = (function() {
                     const leaves = DOMHelpers.getLeafNodes([rowElement]);
                     const row = {};
                     leaves.forEach((leaf, i) => {
-                        const column = _indexToAlpha(i);
-                        row[column] = leaf.textContent;
+                        const dataProperty = VisualFeedback.camelCase(Constants.COLUMN_HIGHLIGHT_CLASS);
+                        if (leaf.dataset[dataProperty]) {
+                            const column = _indexToAlpha(i);
+                            row[column] = leaf.textContent;
+                        }
                     });
                     data.push(row);
                 })

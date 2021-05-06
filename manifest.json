@@ -26,9 +26,7 @@
           "./index.css"
         ],
         "matches": [
-          "https://helena-lang.org/sample-data",
-          "https://www.csail.mit.edu/people*",
-          "https://scholar.google.com/citations?user=*"
+          "<all_urls>"
         ]
       }
     ],

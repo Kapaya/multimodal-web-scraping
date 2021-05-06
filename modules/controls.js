@@ -28,12 +28,16 @@ const Controls = (() => {
     function scrape() {
         Scraper.scrape();
     }
+    function reset() {
+        VisualFeedback.resetColumns();
+    }
     function _createControlsElement() {
         const controlsElementInnerHtml = `
-            <button id='scrape' class='btn btn-outline-light'> Scrape </button>
-            <button id='start' class='btn btn-outline-light'> Start </button>
-            <button id='stop' class='btn btn-outline-light'> Stop </button>
-            <button id='end' class='btn btn-outline-light'> End </button>
+            <button id='scrape' class='btn btn-outline-light'> Download </button>
+            <button id='reset' class='btn btn-outline-light'> Reset Columns </button>
+            <button id='start' class='btn btn-outline-light'> Lock </button>
+            <button id='stop' class='btn btn-outline-light'> Unlock </button>
+            <button id='end' class='btn btn-outline-light'> Close </button>
         `;
         const controlsElement = document.createElement('div');
         controlsElement.id = Constants.CONTROLS_ELEMENT_ID;
@@ -45,6 +49,7 @@ const Controls = (() => {
         start,
         stop,
         end,
-        scrape
+        scrape,
+        reset
     }
 })();

@@ -17,7 +17,11 @@ const GazeUtils = (() => {
     function _isValidNode(node) {
         return node && node.tagName && !!document.body.contains(node) && node.id !== Constants.CONTROLS_ELEMENT_ID;
     }
+    function indexToAlpha(i) {
+        return String.fromCharCode(97 + i).toUpperCase();
+    }
     return {
-        elementFromPoint
+        elementFromPoint,
+        indexToAlpha
     }
 })();
