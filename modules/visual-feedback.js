@@ -58,7 +58,6 @@ const VisualFeedback = (() => {
                         .forEach((leaf, i) => {
                             const camelCased = camelCase(Constants.COLUMN_HIGHLIGHT_CLASS);
                             const hasColumn = columns.some(column => {
-                                column = column === 'BE' ? 'B' : column;
                                 if (leaf.dataset[camelCased] === `[${column}] `) {
                                     return true;
                                 }

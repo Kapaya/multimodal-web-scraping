@@ -15,11 +15,14 @@
     border-radius: 5px;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    max-width: 250px;
+    border: 1px solid white;
 }
 
 #mws-root > * {
-    padding: 3px;
-    margin: 3px;
+    padding: 1px;
+    margin: 1px;
 }
 
 .mws-row-highlight {
@@ -32,4 +35,57 @@
 
 .mws-column-highlight::before {
     content: attr(data-mws-column-highlight);
+    color: white;
+}
+
+#mws-root .groups {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid white;
+}
+
+#mws-root .group {
+    display: flex;
+    width: 100%;
+}
+
+#mws-root .group > * {
+    padding: 2px;
+    margin: 2px;
+    flex: 2;
+}
+
+#mws-root .dialog {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    font-size: 1rem;
+}
+
+#mws-root .dialog > * {
+    padding: 3px;
+    margin: 3px;
+}
+
+#mws-root .dialog .title {
+    border-bottom: 1px solid white;;
+}
+
+#mws-root .dialog .title .text {
+    font-size: 1rem;
+}
+
+#mws-root .dialog .text {
+    font-size: 0.9rem; 
+}
+
+#mws-root .dialog .label {
+    border: 1px solid white;
+    padding: 1px;
+    margin: 1px;
+}
+
+.mws-dialog-active-text {
+    font-weight: bold;
 }

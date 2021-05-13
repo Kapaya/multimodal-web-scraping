@@ -29,37 +29,95 @@ const VoiceRecognition = (() => {
                 }, 1000);
             }
         };
-        recognition.start();
+        recognition.start();   
     }
 
     function stop() {
-        _stop = true;
-        recognition.abort();
+        if (recognition) {
+            _stop = true;
+            recognition.abort();
+        }
     }
 
     function _processSpeech(transcript) {
         transcript = transcript.toLowerCase().trim();
-        console.log("COMMAND:", transcript);
-        if (_userSaid(transcript, ['start', 'unlock'])) {
-            Controls.start();
-            return true;
-        } else if (_userSaid(transcript, ['stop', 'lock'])) {
-            Controls.stop();
-            return true;
-        } else if (_userSaid(transcript, ['download'])) {
-            Controls.scrape();
-            return true;
-        } else if (_userSaid(transcript, ['end', 'close'])) {
-            Controls.end();
-            return true;
-        } else if (_userSaid(transcript, ['keep'])) {
-            const columns = Array.from( new Set(transcript.split(" ").slice(1).map(v => v.toUpperCase())));
-            VisualFeedback.filter({ operation: "keep", columns });
-        } else if (_userSaid(transcript, ['remove'])) {
-            const columns = Array.from( new Set(transcript.split(" ").slice(1).map(v => v.toUpperCase())));
-            VisualFeedback.filter({ operation: "remove", columns });
-        } else if (_userSaid(transcript, ['reset columns'])) {
-            VisualFeedback.resetColumns();
+        let text = 'That is not a valid command.';
+        if (transcript) {
+            Controls.updateDialog({ target: 'user', text: transcript });
+            if (_userSaid(transcript, ['unlock'])) {
+                text = 'Gaze has been unlocked.';
+                Controls.start();
+                Controls.updateDialog({
+                    target: 'system',
+                    text
+                });
+                VoiceSynthesis.speak(text);
+                return true;
+            } else if (_userSaid(transcript, ['lock'])) {
+                text = 'Gaze has been locked. Say "keep" or "remove" with column names (A-Z) to filter. For example, "keep A B ". To download the highlighted data, say "download data" or "unlock" to highlight different data.';
+                Controls.stop();
+                Controls.updateDialog({
+                    target: 'system',
+                    text
+                });
+                VoiceSynthesis.speak(text);
+                return true;
+            } else if (_userSaid(transcript, ['download'])) {
+                text = 'The highlighted data has been downloaded as a JSON file. Say "close" to close MWS.'
+                Controls.scrape();
+                Controls.updateDialog({
+                    target: 'system',
+                    text
+                });
+                VoiceSynthesis.speak(text);
+                return true;
+            } else if (_userSaid(transcript, ['close'])) {
+                Controls.end();
+                return true;
+            } else if (_userSaid(transcript, ['keep'])) {
+                const columns = Array.from( new Set(transcript.split(" ").slice(1).map(v => v.toUpperCase())));
+                if (!columns.length) {
+                    text = 'You did not say any columns names.';
+                } else if (!columns.every(c => c.length === 1)) {
+                    text = 'Invalid columns.';
+                } else {
+                    text = `Only columns ${columns.join(" ")} have been selected. Say "reset columns" to reset or "download" to download data.`;
+                    VisualFeedback.filter({ operation: "keep", columns }); 
+                } 
+                Controls.updateDialog({
+                    target: 'system',
+                    text
+                }); 
+                VoiceSynthesis.speak(text);
+                return true;
+            } else if (_userSaid(transcript, ['remove'])) {
+                const columns = Array.from( new Set(transcript.split(" ").slice(1).map(v => v.toUpperCase())));
+                if (!columns.length) {
+                   text = 'You did not say any columns names.';
+                } else if (!columns.every(c => c.length === 1)) {
+                    text = 'Invalid columns.';
+                } else {
+                    text = `Columns ${columns.join(" ")} have been unselected. Say "reset columns" to reset or "downlod data" to download data.`;
+                    VisualFeedback.filter({ operation: "remove", columns });
+                }
+                Controls.updateDialog({
+                    target: 'system',
+                    text
+                });
+                VoiceSynthesis.speak(text);
+                return true;
+            } else if (_userSaid(transcript, ['reset columns'])) {
+                text = `All columns are back to being selected.`;
+                VisualFeedback.resetColumns();
+                Controls.updateDialog({
+                    target: 'system',
+                    text
+                });
+                VoiceSynthesis.speak(text);
+                return true;
+            }
+            Controls.updateDialog({ target: 'system', text });
+            VoiceSynthesis.speak(text);
         }
         return false;
     }

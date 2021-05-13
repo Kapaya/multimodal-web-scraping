@@ -11,6 +11,7 @@
           "./modules/webgazer/tensorflow.js",
           "./modules/webgazer/webgazer.js",
           "./modules/constants.js",
+          "./modules/voice-synthesis.js",
           "./modules/voice-recognition.js",
           "./modules/dom-helpers.js",
           "./modules/wrapper-induction.js",
