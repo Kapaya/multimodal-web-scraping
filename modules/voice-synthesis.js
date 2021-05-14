@@ -10,12 +10,37 @@ const VoiceSynthesis = (function(){
             utterance.lang = 'en-US'
             utterance.text = message;
             utterance.rate = MESSAGE_RATE;
-            VoiceRecognition.stop();
+            utterance.onstart = () => {
+                VoiceRecognition.stop();
+            };
             utterance.onend = () => {
-                Controls.unSetActiveDialogTextColor({ target: 'system' });
+                Controls.unSetDialogClass({
+                    target: 'system',
+                    className: Constants.DIALOG_ACTIVE_CLASS
+                });
+                Controls.unSetDialogClass({
+                    target: 'user',
+                    className: Constants.DIALOG_INACTIVE_CLASS
+                });
+                Controls.setDialogClass({
+                    target: 'user',
+                    className: Constants.DIALOG_ACTIVE_CLASS
+                });
                 VoiceRecognition.start();
-            } ;
-            Controls.setActiveDialogTextColor({ target: 'system' });
+            };
+            Controls.setDialogClass({
+                target: 'system',
+                className: Constants.DIALOG_ACTIVE_CLASS
+            });
+            Controls.unSetDialogClass({
+                target: 'user',
+                className: Constants.DIALOG_ACTIVE_CLASS
+            });
+            Controls.setDialogClass({
+                target: 'user',
+                className: Constants.DIALOG_INACTIVE_CLASS
+            });
+            speechSynthesis.cancel();
             speechSynthesis.speak(utterance);
         }
     }

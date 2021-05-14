@@ -1,10 +1,12 @@
 const GazeRecognition = (() => {
     function start() {
-        console.log("STARTED GAZE RECOGNITION");
+        const width = Controls.getControlsWidth();
+        Controls.initVideoSection();
+        webgazer.params.videoViewerWidth = width
+        webgazer.params.videoViewerHeight = width - 80;
         webgazer
-            .showVideo(false)
             .setGazeListener((data, elapsedTime) => {
-                if (data == null) {
+                if (data == null || Calibration.callibrating()) {
                     return;
                 }
                 VisualFeedback.unhighlightRowElements();
@@ -18,7 +20,9 @@ const GazeRecognition = (() => {
                         }
                     }
                 }
-            }).begin();
+            })
+            .begin();
+        
     }
     function pause() {
         webgazer.pause();

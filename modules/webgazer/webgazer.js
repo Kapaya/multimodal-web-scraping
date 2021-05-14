@@ -2221,9 +2221,9 @@ async function init(stream) {
   videoContainerElement = document.createElement('div');
   videoContainerElement.id = src_webgazer.params.videoContainerId;
   videoContainerElement.style.display = src_webgazer.params.showVideo ? 'block' : 'none';
-  videoContainerElement.style.position = 'fixed';
-  videoContainerElement.style.top = topDist;
-  videoContainerElement.style.left = leftDist;
+  videoContainerElement.style.position = 'absolute';
+  //videoContainerElement.style.top = topDist;
+  //videoContainerElement.style.left = leftDist;
   videoContainerElement.style.width = src_webgazer.params.videoViewerWidth + 'px';
   videoContainerElement.style.height = src_webgazer.params.videoViewerHeight + 'px';
   
@@ -2290,7 +2290,8 @@ async function init(stream) {
 
   // Add other preview/feedback elements to the screen once the video has shown and its parameters are initialized
   videoContainerElement.appendChild(videoElement);
-  document.body.appendChild(videoContainerElement);
+  //document.body.appendChild(videoContainerElement);
+  document.querySelector("#mws-root .video").append(videoContainerElement)
   function setupPreviewVideo(e) {
 
     // All video preview parts have now been added, so set the size both internally and in the preview window.
@@ -2445,6 +2446,9 @@ src_webgazer.end = function() {
   }
   if (videoElementCanvas) {
     videoElementCanvas.remove()
+  }
+  if (videoContainerElement) {
+    videoContainerElement.remove();
   }
   if (gazeDot) {
     gazeDot.remove();

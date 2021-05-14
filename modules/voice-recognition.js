@@ -36,6 +36,7 @@ const VoiceRecognition = (() => {
         if (recognition) {
             _stop = true;
             recognition.abort();
+            recognition = null;
         }
     }
 
@@ -44,8 +45,8 @@ const VoiceRecognition = (() => {
         let text = 'That is not a valid command.';
         if (transcript) {
             Controls.updateDialog({ target: 'user', text: transcript });
-            if (_userSaid(transcript, ['unlock'])) {
-                text = 'Gaze has been unlocked.';
+            if (_userSaid(transcript, ['continue'])) {
+                text = 'Gaze tracking has been continued.';
                 Controls.start();
                 Controls.updateDialog({
                     target: 'system',
@@ -53,8 +54,8 @@ const VoiceRecognition = (() => {
                 });
                 VoiceSynthesis.speak(text);
                 return true;
-            } else if (_userSaid(transcript, ['lock'])) {
-                text = 'Gaze has been locked. Say "keep" or "remove" with column names (A-Z) to filter. For example, "keep A B ". To download the highlighted data, say "download data" or "unlock" to highlight different data.';
+            } else if (_userSaid(transcript, ['stop'])) {
+                text = 'Gaze tracking has been stopped.';
                 Controls.stop();
                 Controls.updateDialog({
                     target: 'system',
@@ -81,7 +82,7 @@ const VoiceRecognition = (() => {
                 } else if (!columns.every(c => c.length === 1)) {
                     text = 'Invalid columns.';
                 } else {
-                    text = `Only columns ${columns.join(" ")} have been selected. Say "reset columns" to reset or "download" to download data.`;
+                    text = `Only columns ${columns.join(" ")} have been selected.`;
                     VisualFeedback.filter({ operation: "keep", columns }); 
                 } 
                 Controls.updateDialog({
@@ -97,7 +98,7 @@ const VoiceRecognition = (() => {
                 } else if (!columns.every(c => c.length === 1)) {
                     text = 'Invalid columns.';
                 } else {
-                    text = `Columns ${columns.join(" ")} have been unselected. Say "reset columns" to reset or "downlod data" to download data.`;
+                    text = `Columns ${columns.join(" ")} have been unselected.`;
                     VisualFeedback.filter({ operation: "remove", columns });
                 }
                 Controls.updateDialog({
@@ -115,6 +116,23 @@ const VoiceRecognition = (() => {
                 });
                 VoiceSynthesis.speak(text);
                 return true;
+            } else if (_userSaid(transcript, ['calibrate'])) {
+                VisualFeedback.unhighlightRowElements();
+                Calibration.render();
+                text = 'To calibrate the gaze recognition, click on each of the white circles while looking at them until they fully dissappear';
+                Controls.updateDialog({
+                    target: 'system',
+                    text
+                });
+                VoiceSynthesis.speak(text);
+                return true;
+            } else if (_userSaid(transcript, ['help'])) {
+                text = 'Look at the data you want to scape to highlight it. When it is highlighted, say "stop" to stop the gaze recognition and "continue" if the wrong data has been highlighted. If the desired data is highlighted, say "keep" or "remove" with column names (A-Z) to filter columns. For example, "keep A B ". To reset columns, say "reset columns". To download the highlighted data, say "download data".';
+                Controls.updateDialog({
+                    target: 'system',
+                    text
+                });
+                return;
             }
             Controls.updateDialog({ target: 'system', text });
             VoiceSynthesis.speak(text);

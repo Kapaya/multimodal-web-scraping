@@ -1,6 +1,6 @@
 const Controls = (() => {
     let controlsElement;
-    const DEFAULT_SYSTEM_MESSAGE = 'Wait for the red circle to appear which tracks your gaze. Then, look at the rows you want to scrape and say "lock" once they are highlighted. If the wrong rows are highlighted, say "unlock" to try again.';
+    const DEFAULT_SYSTEM_MESSAGE = 'Wait for the red circle to appear which tracks your gaze. Then, look at the data you want to scrape and say "stop" once it is highlighted. To improve gaze recognition, say "calibrate". To see all commands, say "help".';
     function render() {
         const body = document.querySelector('body');
         controlsElement = _createControlsElement();
@@ -38,13 +38,19 @@ const Controls = (() => {
         const dialogText = controlsElement.querySelector(`.dialog .${target} .text`);
         dialogText.textContent = text;
     }
-    function setActiveDialogTextColor({ target }) {
-        const dialogText = controlsElement.querySelector(`.dialog .${target} .text`);
-        dialogText.classList.add(Constants.ACTIVE_DIALOG_TEXT);
+    function setDialogClass({ target, className }) {
+        const dialogLabel = controlsElement.querySelector(`.dialog .${target} .label`);
+        dialogLabel.classList.add(className);
     }
-    function unSetActiveDialogTextColor({ target }) {
-        const dialogText = controlsElement.querySelector(`.dialog .${target} .text`);
-        dialogText.classList.remove(Constants.ACTIVE_DIALOG_TEXT);
+    function unSetDialogClass({ target, className }) {
+        const dialogLabel = controlsElement.querySelector(`.dialog .${target} .label`);
+        dialogLabel.classList.remove(className);
+    }
+    function getControlsWidth() {
+        return controlsElement.querySelector(".video").offsetWidth;
+    }
+    function initVideoSection() {
+        controlsElement.querySelector(".video").style = `margin-bottom:${controlsElement.offsetWidth - 80}px`;
     }
     function _createControlsElement() {
         const controlsElementInnerHtml = `
@@ -52,6 +58,7 @@ const Controls = (() => {
                 <div class='title'>
                     <span class='text'>Multimodal Web Scraping </span>
                 </div>
+                <div class='video'></div>
                 <div class='system'>
                     <span class='label'>MWS</span>
                     <span class='text'>${DEFAULT_SYSTEM_MESSAGE}</span>
@@ -75,7 +82,9 @@ const Controls = (() => {
         scrape,
         reset,
         updateDialog,
-        setActiveDialogTextColor,
-        unSetActiveDialogTextColor
+        setDialogClass,
+        unSetDialogClass,
+        getControlsWidth,
+        initVideoSection
     }
 })();
