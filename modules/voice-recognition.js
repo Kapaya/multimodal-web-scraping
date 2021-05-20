@@ -18,7 +18,7 @@ const VoiceRecognition = (() => {
                 transcript += event.results[i][0].transcript;
             }
             const processed = debouncedProcessSpeech(transcript);
-            if (processed) {
+            if (processed && recognition) {
                 recognition.stop();
             }
         };

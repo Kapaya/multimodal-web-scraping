@@ -27,8 +27,10 @@ const Calibration = (function(){
     }
     function stop() {
         _callibrating = false;
-        _calibrationElement.removeEventListener('click', _calibrationEventListener, true);
-        _calibrationElement.remove();
+        if (_calibrationElement) {
+            _calibrationElement.removeEventListener('click', _calibrationEventListener, true);
+            _calibrationElement.remove();
+        }
     }
     function callibrating(value) {
         if (value) {
