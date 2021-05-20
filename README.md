@@ -1,6 +1,7 @@
 # MWS: Multimodal Web Scraping
 
 ![Alt text](./cover.png?raw=true "Overview of MWS")
+
 *Overview of how MWS can be used to scrape data from a website: 1) Highlighted website data corresponding to the scraped data table, 2) red circle which represents the user’s detected  gaze, 3) webcam feed showing how user’s gaze is being detected, 4) MWS feedback dialog (also uttered via speech synthesis) used to respond to user commands and guide user actions, 5) user feedback dialog used to display what voice command was detected by the system* 
 
 ## Abstract
