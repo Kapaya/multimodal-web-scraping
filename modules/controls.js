@@ -21,6 +21,7 @@ const Controls = (() => {
         GazeRecognition.resume();
     }
     function end() {
+        Calibration.stop();
         GazeRecognition.stop();
         VoiceRecognition.stop();
         VisualFeedback.unhighlightRowElements();

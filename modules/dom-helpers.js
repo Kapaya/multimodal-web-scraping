@@ -29,7 +29,9 @@ const DOMHelpers = (() => {
     function getLeafNodes(nodes, result = []){
         for(var i = 0, length = nodes.length; i < length; i++){
           if(!nodes[i].children || nodes[i].children.length === 0){
-            result.push(nodes[i]);
+            if (nodes[i].offsetParent !== null) {
+                result.push(nodes[i]);
+            }
           }else{
             result = getLeafNodes(nodes[i].children, result);
           }

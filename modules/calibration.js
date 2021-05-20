@@ -17,15 +17,18 @@ const Calibration = (function(){
         _callibrating = true;
     }
     function remove() {
-        _callibrating = false;
-        _calibrationElement.removeEventListener('click', _calibrationEventListener, true);
-        _calibrationElement.remove();
+        stop();
         const text = 'Calibration complete, can proceed to scrape data from this website. Say "help" for available commands.';
         Controls.updateDialog({
             target: 'system',
             text
         });
         VoiceSynthesis.speak(text);
+    }
+    function stop() {
+        _callibrating = false;
+        _calibrationElement.removeEventListener('click', _calibrationEventListener, true);
+        _calibrationElement.remove();
     }
     function callibrating(value) {
         if (value) {
@@ -61,6 +64,7 @@ const Calibration = (function(){
     return {
         render,
         remove,
-        callibrating
+        callibrating,
+        stop
     }
 })();

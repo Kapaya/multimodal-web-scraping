@@ -25,7 +25,9 @@ const VoiceRecognition = (() => {
         recognition.onend = function(event) {
             if (!_stop) {
                 setTimeout(function() {
-                    recognition.start();
+                    if (recognition) {
+                        recognition.start();
+                    }
                 }, 1000);
             }
         };
