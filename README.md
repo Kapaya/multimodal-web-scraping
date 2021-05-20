@@ -14,6 +14,8 @@ Paper: https://github.com/Kapaya/multimodal-web-scraping/blob/main/paper.pdf
 
 Demo: https://youtu.be/Ee34bGjcYgU
 
+Code: https://github.com/Kapaya/multimodal-web-scraping
+
 ## Setup
 
 I've mostly tested MWS on Google Scholar because its CSS definitions to do not interfere with MWS's interface unlike most other websites. Here are the steps required to run it:
