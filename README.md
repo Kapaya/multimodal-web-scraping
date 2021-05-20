@@ -34,26 +34,21 @@ I've mostly tested MWS on Google Scholar because its CSS definitions to do not i
 
 MWS's code is laid out as follows:
 
-### modules
-
-This folder contains folders and files the implement the core logic:
-
-1. boostrap: contains boostrap code used for styling
-2. underscore: contains underscore library which is used to debounce the voice recognition event listener
-3. webgazer: contains WebGazer.js source files and dependencies
-4. calibration.js: contains code for the in-website calibration mechanism
-5. constants.js: central definition of variables used across modules
-6. controls.js: contains code that render's MWS interface and implements its functionality
-7. dom-helpers.js: contains DOM-related helper methods used across modules
-8. gaze-recognition.js: contains code that implements the gaze detection using WebGazer.js
-9. gaze-utils.js: contains code that contains gaze-related helper methods used across modules
-10. scraper.js: contains code that implements the web scraping after the web scraping programming is generated
-11. visual-feedback.js: contains code that implements visual feedback such is highlighting of row and column DOM elements
-12. voice-recognition.js: contains code that implements voice recognition using the Web Speech API
-13. voice-synthesis.js: contains code that implements speech synthesis using the Web Speech API
-14. wrapper-induction.js: contains code that implements the wrapper induction algorithm to generate a web scraping program
+1. modules/boostrap: contains boostrap code used for styling
+2. modules/underscore: contains underscore library which is used to debounce the voice recognition event listener
+3. modules/webgazer: contains WebGazer.js source files and dependencies
+4. modules/calibration.js: contains code for the in-website calibration mechanism
+5. modules/constants.js: central definition of variables used across modules
+6. modules/controls.js: contains code that render's MWS interface and implements its functionality
+7. modules/dom-helpers.js: contains DOM-related helper methods used across modules
+8. modules/gaze-recognition.js: contains code that implements the gaze detection using WebGazer.js
+9. modules/gaze-utils.js: contains code that contains gaze-related helper methods used across modules
+10. modules/scraper.js: contains code that implements the web scraping after the web scraping programming is generated
+11. modules/visual-feedback.js: contains code that implements visual feedback such is highlighting of row and column DOM elements
+12. modules/voice-recognition.js: contains code that implements voice recognition using the Web Speech API
+13. modules/voice-synthesis.js: contains code that implements speech synthesis using the Web Speech API
+14. modules/wrapper-induction.js: contains code that implements the wrapper induction algorithm to generate a web scraping program
 15. background.js: contains code that initiates MWS from the browser context menu
 16. index.css: contains CSS that styles various parts of MWS's interface
 17. index.js: entry point of MWS
 18. manifest.json: contains configuration for defining MWS's behavior as a Chrome extension
-
